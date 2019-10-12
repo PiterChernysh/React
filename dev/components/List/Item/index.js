@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Item__head from "./Item_header";
+import Item__head from "./Item__header";
 
 class Item extends Component {
   render() {
