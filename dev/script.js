@@ -8,7 +8,7 @@ import List from "./components/List";
 class App extends Component {
   render() {
     return (
-      <div class="box">
+      <div className="box">
         <Title />
         <Form />
         <List />

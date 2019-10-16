@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Title extends Component {
   render() {
-    return <h1 class="title">Comment</h1>;
+    return <h1 className="title">Comment</h1>;
   }
 }
 

@@ -3,9 +3,10 @@ import Item__action from "./Item__action";
 
 class Item__head extends Component {
   render() {
+    const {author} = this.props;
     return (
-      <header class="item__head">
-        <h3 class="item__title"> {this.props.nameTitle}</h3>
+      <header className="item__head">
+        <h3 className="item__title"> {author}</h3>
         <Item__action />
       </header>
     );

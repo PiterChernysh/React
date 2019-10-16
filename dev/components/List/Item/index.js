@@ -3,10 +3,12 @@ import Item__head from "./Item__header";
 
 class Item extends Component {
   render() {
+  const {author, text} = this.props;
+
     return (
-      <li class="item">
-        <Item__head nameTitle={this.props.nameTitle} />
-        <p> {this.props.comment} </p>
+      <li className="item">
+        <Item__head author={author} />
+        <p> {text} </p>
       </li>
     );
   }
