@@ -1,46 +1,59 @@
 import React, { Component, Fragment } from "react";
 import Item from "./Item";
-import newsJSON from "../../../news.json";
-const newsLen = newsJSON.length;
+// import newsJSON from "../../../news.json";
+// const newsLen = newsJSON.length;
 class List extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { newsFromList } = this.props;
     this.state = {
       startId: 0,
-      maxId: newsLen,
+      maxId: newsFromList.length,
       len: 2
     };
     this.newsShow = this.newsShow.bind(this);
+    this.smaller = this.smaller.bind(this);
+    this.more = this.more.bind(this);
+    this.pageUp = this.pageUp.bind(this);
+    this.pageDn = this.pageDn.bind(this);
+
   }
   newsShow() {
-    const { startId, len } = this.state;
-    return newsJSON
+    const { startId, len, maxId } = this.state;
+    const { newsFromList } = this.props;
+    if (len < 0) this.setState({ len: 2 });
+    else if (len > maxId) this.setState({ len: maxId });
+    return newsFromList
       .slice(startId, startId + len)
-      .map(({ news_title, text }) => {
+      .map(({ id, news_title, text }) => {
         return (
-          <Fragment key={news_title}>
+          <Fragment key={id}>
             <Item news_title={news_title} news={text} />
           </Fragment>
         );
       });
   }
-  newsLength(num){
-    const { len, startId, maxId } = this.state;
-    num > 0 ?
-    this.setState({
-      len: len + num <= maxId ? len + num : maxId
-    }) :
-    this.setState({
-      len: len + num >= startId - num ? len + num : 2
+  smaller(){
+    const { len, startId} = this.state;
+    this.setState({ 
+      len: len - 2 >= 2 ? len - 2 : 2
+    });
+  }
+  more(){
+    const { len, maxId} = this.state;
+    this.setState({ 
+      len: len + 2 <= maxId ? len + 2 : maxId
     });
   }
 
-  pageMove(n){
-    const { len, startId, maxId } = this.state;
-    n>0 ?
+  pageUp() {
+    const { len, startId } = this.state;
     this.setState({
-      startId: startId - len >= 0 ? startId -len : startId
-    }) :
+      startId: startId - len >= 0 ? startId - len : 0
+    });
+  }
+  pageDn() {
+    const { len, startId, maxId } = this.state;
     this.setState({
       startId: startId + len < maxId ? startId + len : maxId - len
     });
@@ -50,18 +63,24 @@ class List extends Component {
       <>
         {this.newsShow()}
         <div className="novigation">
-          <button onClick={()=>this.newsLength(-2)} className="button">
+          <button
+            onClick={this.smaller}
+            className="button"
+          >
             smaller
           </button>
-          <button onClick={()=>this.newsLength(2)} className="button">
+          <button
+            onClick={this.more}
+            className="button"
+          >
             more
           </button>
         </div>
         <div className="novigation">
-          <button onClick={()=>this.pageMove(1)} className="button">
+          <button onClick={this.pageUp} className="button">
             Up
           </button>
-          <button onClick={()=>this.pageMove(-1)} className="button">
+          <button onClick={this.pageDn} className="button">
             Down
           </button>
         </div>

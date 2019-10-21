@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-import Title from "./components/Title";
-import List from "./components/List";
+import News from "./components/News";
 
 class App extends Component {
   render() {
     return (
       <>
         <div className="box">
-          <Title />
-          <List />
+          <News />
         </div>
       </>
     );
