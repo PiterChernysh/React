@@ -136,6 +136,29 @@ body
     background: transparent;
 }
 
+.form.edit {
+    border-bottom-width: 0;
+}
+
+.form.edit label
+{
+    color: #fefefe;
+}
+
+.form.edit input:focus,
+.form.edit textarea:focus,
+.form.edit label:active + input,
+.form.edit label:active + textarea
+{
+    border-color: #47a3da;
+    outline: none;
+}
+
+.form.edit .button
+{
+    border: 3px solid #fefefe;
+}
+
 .novigation{
     display: flex;
     align-items: center;

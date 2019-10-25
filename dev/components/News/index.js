@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 
 import Title from "../Title";
+import Form from "../Fotm";
 import List from "../List";
 
 class News extends Component {
   constructor() {
     super();
     this.state = {
-      news: [
+      isShowForm: true,
+      newsList: [
         {
           id: 1,
           news_title: "Три поросенка",
@@ -70,13 +72,62 @@ class News extends Component {
         }
       ]
     };
+    this.createItem = this.createItem.bind(this);
+    this.updateItem = this.updateItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
+  }
+  createItem(item) {
+    const { newsList } = this.state;
+    this.setState({
+      newsList: [item, ...newsList]
+    });
+  }
+  updateItem(item) {
+    const { newsList } = this.state;
+    this.setState({
+      newsList: newsList.map(elem => (elem.id === item.id ? item : elem))
+    });
+  }
+
+  removeItem(itemId) {
+    const { newsList } = this.state;
+    this.setState({
+      newsList: newsList.filter(item => item.id !== itemId)
+    });
+  }
+  cancelEdit() {
+    const { isShowForm } = this.state;
+    this.setState({
+      isShowForm: !isShowForm
+    });
   }
   render() {
+    const { isShowForm } = this.state;
     return (
       <>
         <div className="list">
           <Title />
-          <List newsFromList = {this.state.news}/>
+          <div className="novigation">
+            {!isShowForm ? (
+              <button className="button" onClick={this.cancelEdit}>
+                Add news
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+
+          {isShowForm ? (
+            <Form addFromProps={this.createItem} cancelEdit={this.cancelEdit} />
+          ) : (
+            ""
+          )}
+          <List
+            newsFromList={this.state.newsList}
+            removeFromProps={this.removeItem}
+            updateFromProps={this.updateItem}
+          />
         </div>
       </>
     );

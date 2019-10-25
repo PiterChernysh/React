@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import Item from "./Item";
-// import newsJSON from "../../../news.json";
-// const newsLen = newsJSON.length;
 class List extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +23,14 @@ class List extends Component {
     else if (len > maxId) this.setState({ len: maxId });
     return newsFromList
       .slice(startId, startId + len)
-      .map(({ id, news_title, text }) => {
+      .map(item => {
+        const { removeFromProps, updateFromProps } = this.props;
         return (
-          <Fragment key={id}>
-            <Item news_title={news_title} news={text} />
-          </Fragment>
+            <Item 
+            key={item.id}
+            removeFromList={removeFromProps}
+						updateFromList={updateFromProps} 
+            item = {item} />
         );
       });
   }
@@ -55,7 +56,7 @@ class List extends Component {
   pageDn() {
     const { len, startId, maxId } = this.state;
     this.setState({
-      startId: startId + len < maxId ? startId + len : maxId - len
+      startId: startId + len >= maxId ? maxId : startId + len 
     });
   }
   render() {
