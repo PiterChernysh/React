@@ -9,15 +9,16 @@ class News extends Component {
     super();
     this.state = {
       isShowForm: false,
-      rm:true
+      newsList: [],
+      rm: true
     };
     this.createItem = this.createItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
   }
-  static getDerivedStateFromProps(nextProps, state) {
-    const newsList = [
+  componentWillMount() {
+    const newsListTemplate = [
       {
         id: 1,
         news_title: "Три поросенка",
@@ -81,40 +82,38 @@ class News extends Component {
     ];
 
     const newsListLocal = JSON.parse(localStorage.getItem("newsList"));
-    console.log(newsListLocal);
+    this.setState({
+      newsList: newsListLocal ? newsListLocal : newsListTemplate
+    });
     if (newsListLocal == undefined)
       localStorage.setItem("newsList", JSON.stringify(newsList));
     return null;
   }
 
+  componentDidUpdate() {
+    const { newsList } = this.state;
+    localStorage.setItem("newsList", JSON.stringify(newsList));
+  }
+
   createItem(item) {
-    const newsList = JSON.parse(localStorage.getItem("newsList"));
-    localStorage.setItem("newsList", JSON.stringify([item, ...newsList]));
-    const { isShowForm } = this.state;
+    const { newsList } = this.state;
     this.setState({
+      newsList: [item, ...newsList],
       isShowForm: false
     });
   }
   updateItem(item) {
-    const newsList = JSON.parse(localStorage.getItem("newsList"));
-    localStorage.setItem(
-      "newsList",
-      JSON.stringify(newsList.map(elem => (elem.id === item.id ? item : elem)))
-    );
-    const { isShowForm } = this.state;
+    const { newsList } = this.state;
     this.setState({
+      newsList: newsList.map(elem => (elem.id === item.id ? item : elem)),
       isShowForm: false
     });
   }
 
   removeItem(itemId) {
-    const newsList = JSON.parse(localStorage.getItem("newsList"));
-    localStorage.setItem(
-      "newsList",
-      JSON.stringify(newsList.filter(item => item.id !== itemId))
-    );
-    const { rm } = this.state;
+    const { rm, newsList } = this.state;
     this.setState({
+      newsList: newsList.filter(item => item.id !== itemId),
       rm: !rm
     });
   }
@@ -125,7 +124,7 @@ class News extends Component {
     });
   }
   render() {
-    const { isShowForm } = this.state;
+    const { isShowForm, newsList } = this.state;
     return (
       <>
         <div className="list">
@@ -146,6 +145,7 @@ class News extends Component {
             ""
           )}
           <List
+            newsFromList={newsList}
             removeFromProps={this.removeItem}
             updateFromProps={this.updateItem}
           />
