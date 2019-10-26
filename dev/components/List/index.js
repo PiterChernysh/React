@@ -3,7 +3,7 @@ import Item from "./Item";
 class List extends Component {
   constructor(props) {
     super(props);
-    const { newsFromList } = this.props;
+    const newsFromList = JSON.parse(localStorage.getItem("newsList"));
     this.state = {
       startId: 0,
       maxId: newsFromList.length,
@@ -18,9 +18,10 @@ class List extends Component {
   }
   newsShow() {
     const { startId, len, maxId } = this.state;
-    const { newsFromList } = this.props;
+    const newsFromList = JSON.parse(localStorage.getItem("newsList"));
     if (len < 0) this.setState({ len: 2 });
     else if (len > maxId) this.setState({ len: maxId });
+    console.log(newsFromList);
     return newsFromList
       .slice(startId, startId + len)
       .map(item => {
