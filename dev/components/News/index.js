@@ -86,7 +86,7 @@ class News extends Component {
       newsList: newsListLocal ? newsListLocal : newsListTemplate
     });
     if (newsListLocal == undefined)
-      localStorage.setItem("newsList", JSON.stringify(newsList));
+      localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
     return null;
   }
 
