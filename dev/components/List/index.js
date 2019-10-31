@@ -1,93 +1,60 @@
-import React, { Component, Fragment } from "react";
+import React, { useState } from "react";
 import Item from "./Item";
-class List extends Component {
-  constructor(props) {
-    super(props);
-    const { newsFromList } = this.props;
-    this.state = {
-      startId: 0,
-      maxId: newsFromList.length,
-      len: 2
-    };
-    this.newsShow = this.newsShow.bind(this);
-    this.smaller = this.smaller.bind(this);
-    this.more = this.more.bind(this);
-    this.pageUp = this.pageUp.bind(this);
-    this.pageDn = this.pageDn.bind(this);
+const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
+  const [startId, startIdChenge] = useState(0);
+  const maxId = newsFromList.length;
+  const [len, lenChange] = useState(2);
+  const newsList = newsFromList.slice(startId, startId + len);
 
-  }
-  newsShow() {
-    const { startId, len, maxId } = this.state;
-    const { newsFromList } = this.props;
-    if (len < 0) this.setState({ len: 2 });
-    else if (len > maxId) this.setState({ len: maxId });
-    return newsFromList
-      .slice(startId, startId + len)
-      .map(item => {
-        const { removeFromProps, updateFromProps } = this.props;
+  const newsShow = () => {
+    if (len < 0) lenChange(2);
+    else if (len > maxId) lenChange(maxId);
+    if (newsList.length > 0)
+      return newsList.map(item => {
         return (
-            <Item 
+          <Item
             key={item.id}
             removeFromList={removeFromProps}
-						updateFromList={updateFromProps} 
-            item = {item} />
+            updateFromList={updateFromProps}
+            item={item}
+          />
         );
       });
-  }
-  smaller(){
-    const { len, startId} = this.state;
-    this.setState({ 
-      len: len - 2 >= 2 ? len - 2 : 2
-    });
-  }
-  more(){
-    const { len, maxId} = this.state;
-    this.setState({ 
-      len: len + 2 <= maxId ? len + 2 : maxId
-    });
-  }
+  };
+  const smaller = () => {
+    lenChange(len - 2 >= 2 ? len - 2 : 2);
+  };
+  const more = () => {
+    lenChange(len + 2 <= maxId ? len + 2 : maxId);
+  };
 
-  pageUp() {
-    const { len, startId } = this.state;
-    this.setState({
-      startId: startId - len >= 0 ? startId - len : 0
-    });
-  }
-  pageDn() {
-    const { len, startId, maxId } = this.state;
-    this.setState({
-      startId: startId + len >= maxId ? maxId : startId + len 
-    });
-  }
-  render() {
-    return (
-      <>
-        {this.newsShow()}
-        <div className="novigation">
-          <button
-            onClick={this.smaller}
-            className="button"
-          >
-            smaller
-          </button>
-          <button
-            onClick={this.more}
-            className="button"
-          >
-            more
-          </button>
-        </div>
-        <div className="novigation">
-          <button onClick={this.pageUp} className="button">
-            Up
-          </button>
-          <button onClick={this.pageDn} className="button">
-            Down
-          </button>
-        </div>
-      </>
-    );
-  }
-}
+  const pageUp = () => {
+    startIdChenge(startId - len >= 0 ? startId - len : 0);
+  };
+  const pageDn = () => {
+    startIdChenge(startId + len < maxId ? startId + len : maxId - len);
+  };
+  return (
+    <>
+      {newsShow()}
+      <div className="novigation">
+        <button onClick={smaller} className="button">
+          smaller
+        </button>
+        <button onClick={more} className="button">
+          more
+        </button>
+      </div>
+      <div className="novigation">
+        <button onClick={pageUp} className="button">
+          Up
+        </button>
+        <button onClick={pageDn} className="button">
+          Down
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default List;

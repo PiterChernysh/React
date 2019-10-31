@@ -23,7 +23,25 @@ module.exports = {
             presets: ["@babel/preset-env", "@babel/preset-react"]
           }
         }
-      }
+      },
+			{
+        		test: /\.(png|jpg|gif|webp)$/,
+        		exclude: /node_modules/,
+        		use: {
+            		loader: 'file-loader',
+            		options: {
+          				name: 'images/[name]-[hash].[ext]',
+        			},
+          		}
+        	},
+        	{
+        		test: /\.(svg)$/,
+        		exclude: /node_modules/,
+        		use: [
+        			'babel-loader',
+        			'svg-react-loader'
+        		]
+        	}
     ]
   },
   plugins: [
