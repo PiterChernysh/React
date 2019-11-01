@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Item from "./Item";
 const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
-  const [startId, startIdChenge] = useState(0);
+  const [startId, setStartId] = useState(0);
+  const [len, setLen] = useState(2);
   const maxId = newsFromList.length;
-  const [len, lenChange] = useState(2);
   const newsList = newsFromList.slice(startId, startId + len);
 
   const newsShow = () => {
-    if (len < 0) lenChange(2);
-    else if (len > maxId) lenChange(maxId);
+    if (len < 0) setLen(2);
+    else if (len > maxId) setLen(maxId);
     if (newsList.length > 0)
       return newsList.map(item => {
         return (
@@ -22,17 +22,17 @@ const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
       });
   };
   const smaller = () => {
-    lenChange(len - 2 >= 2 ? len - 2 : 2);
+    setLen(len - 2 >= 2 ? len - 2 : 2);
   };
   const more = () => {
-    lenChange(len + 2 <= maxId ? len + 2 : maxId);
+    setLen(len + 2 <= maxId ? len + 2 : maxId);
   };
 
   const pageUp = () => {
-    startIdChenge(startId - len >= 0 ? startId - len : 0);
+    setStartId(startId - len >= 0 ? startId - len : 0);
   };
   const pageDn = () => {
-    startIdChenge(startId + len < maxId ? startId + len : maxId - len);
+    setStartId(startId + len < maxId ? startId + len : maxId - len);
   };
   return (
     <>

@@ -5,10 +5,10 @@ import Form from "../Fotm";
 import List from "../List";
 
 const News = () => {
-  const [isShowForm, isShowFormChange] = useState(false);
-  const [newsList, newsListChange] = useState([]);
-  const [rmFromList, rmFromListChange] = useState(true);
-  const [willMount, willMountChange] = useState(false);
+  const [isShowForm, setIsShowForm] = useState(false);
+  const [newsList, setNewsList] = useState([]);
+  const [rmFromList, setRmFromList] = useState(true);
+  const [willMount, setWillMount] = useState(false);
 
   const newsListTemplate = [
     {
@@ -75,9 +75,9 @@ const News = () => {
 
   const compWillMount = () => {
     if (!willMount) {
-      willMountChange(true);
+      setWillMount(true);
       const newsListLocal = JSON.parse(localStorage.getItem("newsList"));
-      newsListChange(newsListLocal ? newsListLocal : newsListTemplate);
+      setNewsList(newsListLocal ? newsListLocal : newsListTemplate);
       if (newsListLocal == undefined)
         localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
       return null;
@@ -85,20 +85,20 @@ const News = () => {
   };
 
   const createItem = item => {
-    newsListChange([item, ...newsList]);
-    isShowFormChange(false);
+    setNewsList([item, ...newsList]);
+    setIsShowForm(false);
   };
   const updateItem = item => {
-    newsListChange(newsList.map(elem => (elem.id === item.id ? item : elem)));
-    isShowFormChange(false);
+    setNewsList(newsList.map(elem => (elem.id === item.id ? item : elem)));
+    setIsShowForm(false);
   };
 
   const removeItem = itemId => {
-    newsListChange(newsList.filter(item => item.id !== itemId));
-    rmFromListChange(!rmFromList);
+    setNewsList(newsList.filter(item => item.id !== itemId));
+    setRmFromList(!rmFromList);
   };
   const cancelEdit = () => {
-    isShowFormChange(!isShowForm);
+    setIsShowForm(!isShowForm);
   };
   compWillMount();
   useEffect(() => {

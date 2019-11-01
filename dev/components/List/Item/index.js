@@ -7,10 +7,10 @@ const Item = ({
   removeFromList,
   updateFromList
 }) => {
-  const [isShowForm, handleShowForm] = useState(false);
+  const [isShowForm, setIsShowForm] = useState(false);
 
   useEffect(() => {
-    handleShowForm(false);
+    setIsShowForm(false);
   }, [item]);
   return (
     <li className="item">
@@ -23,7 +23,7 @@ const Item = ({
             <div className="item__action">
               <button
                 className="button button--small"
-                onClick={() => handleShowForm(!isShowForm)}
+                onClick={() => setIsShowForm(!isShowForm)}
               >
                 <Icon name="edit" />
               </button>

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 const Form = ({ item, type, addFromProps, cancelEdit }) => {
-  const [name, nameChange] = useState(item ? item.news_title : "");
-  const [text, textChange] = useState(item ? item.text : "");
+  const [name, setName] = useState(item ? item.news_title : "");
+  const [text, setText] = useState(item ? item.text : "");
   const handleChange = e => {
     const { name, value } = e.target;
     if (name === "name") {
-      nameChange(value);
+      setName(value);
     } else {
-      textChange(value);
+      setText(value);
     }
   };
 
@@ -26,8 +26,8 @@ const Form = ({ item, type, addFromProps, cancelEdit }) => {
     }
   };
   const clearForm = () => {
-    nameChange("");
-    textChange("");
+    setName("");
+    setText("");
   };
 
   return (
