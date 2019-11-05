@@ -72,7 +72,6 @@ const News = () => {
     }
   ];
   useEffect(() => {
-    console.log('Hello');
     localStorage.setItem("newsList", JSON.stringify(newsList));
   }, [newsList]);
   const addAllNews = () => {
@@ -102,7 +101,7 @@ const News = () => {
     setIsShowForm(!isShowForm);
   };
   addAllNews();
-  
+
   return (
     <>
       <div className="list">
