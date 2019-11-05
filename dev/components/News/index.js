@@ -7,7 +7,6 @@ import List from "../List";
 const News = () => {
   const [isShowForm, setIsShowForm] = useState(false);
   const [newsList, setNewsList] = useState([]);
-  const [rmFromList, setRmFromList] = useState(true);
   const [willMount, setWillMount] = useState(false);
 
   const newsListTemplate = [
@@ -72,8 +71,11 @@ const News = () => {
         ' Свин из мультфильма "Тайна Третьей планеты", снятого по книге Кира Булычева "Путешествие Алисы" режиссером Романом Качановым. И мультфильм, и книга рассказывают о приключениях маленькой девочки Алисы Селезневой, ее папы - капитана Селезнева и его друга капитана Зеленого. А также добродушного Громозеки и птицы Говоруна, отличающейся умом и сообразительностью. Что касается Весельчака У - этот свин не то чтобы приятный, но запоминающийся. Хотя местами ведет себя как настоящий поросенок.'
     }
   ];
-
-  const compWillMount = () => {
+  useEffect(() => {
+    console.log('Hello');
+    localStorage.setItem("newsList", JSON.stringify(newsList));
+  }, [newsList]);
+  const addAllNews = () => {
     if (!willMount) {
       setWillMount(true);
       const newsListLocal = JSON.parse(localStorage.getItem("newsList"));
@@ -95,15 +97,12 @@ const News = () => {
 
   const removeItem = itemId => {
     setNewsList(newsList.filter(item => item.id !== itemId));
-    setRmFromList(!rmFromList);
   };
   const cancelEdit = () => {
     setIsShowForm(!isShowForm);
   };
-  compWillMount();
-  useEffect(() => {
-    localStorage.setItem("newsList", JSON.stringify(newsList));
-  }, [newsList]);
+  addAllNews();
+  
   return (
     <>
       <div className="list">
