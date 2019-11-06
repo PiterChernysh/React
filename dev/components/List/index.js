@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Item from "./Item";
+import Button from "../Button";
+import styles from "./style.css";
+
 const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
@@ -37,21 +40,21 @@ const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
   return (
     <>
       {newsShow()}
-      <div className="novigation">
-        <button onClick={smaller} className="button">
-          smaller
-        </button>
-        <button onClick={more} className="button">
-          more
-        </button>
+      <div className={styles.novigation}>
+        <Button handleClick={() => smaller()}>
+        smaller
+        </Button>
+        <Button handleClick={() => more()}>
+        more
+        </Button>
       </div>
-      <div className="novigation">
-        <button onClick={pageUp} className="button">
-          Up
-        </button>
-        <button onClick={pageDn} className="button">
-          Down
-        </button>
+      <div className={styles.novigation}>
+      <Button handleClick={() => pageUp()}>
+        Up
+        </Button>
+        <Button handleClick={() => pageDn()}>
+        Down
+        </Button>
       </div>
     </>
   );

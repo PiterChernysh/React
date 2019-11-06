@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import Title from "../Title";
-import Form from "../Fotm";
+import Form from "../Form";
 import List from "../List";
+import styles from "./style.css";
 
 const News = () => {
   const [isShowForm, setIsShowForm] = useState(false);
@@ -104,7 +105,7 @@ const News = () => {
 
   return (
     <>
-      <div className="list">
+      <div className={styles.list}>
         <Title />
         <Form addFromProps={createItem} cancelEdit={cancelEdit} />
         <List

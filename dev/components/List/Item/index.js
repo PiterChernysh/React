@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Form from "../../Fotm";
+import Form from "../../Form";
 import Icon from "../../Icon";
+import Button from "../../Button";
+import styles from "./style.css";
 
 const Item = ({
   item = { news_title: "noname", text: "lorem ipsum" },
@@ -13,26 +15,23 @@ const Item = ({
     setIsShowForm(false);
   }, [item]);
   return (
-    <li className="item">
+    <li className={styles.item}>
       {isShowForm ? (
         <Form type="edit" item={item} addFromProps={updateFromList} />
       ) : (
         <>
-          <header className="item__head">
-            <h3 className="item__title">{item.news_title}</h3>
-            <div className="item__action">
-              <button
-                className="button button--small"
-                onClick={() => setIsShowForm(!isShowForm)}
+          <header className={styles.item__head}>
+            <h3 className={styles.item__title}>{item.news_title}</h3>
+            <div className={styles.item__action}>
+              <Button
+                theme="small"
+                handleClick={() => setIsShowForm(!isShowForm)}
               >
                 <Icon name="edit" />
-              </button>
-              <button
-                className="button button--small"
-                onClick={() => removeFromList(item.id)}
-              >
+              </Button>
+              <Button theme="small" handleClick={() => removeFromList(item.id)}>
                 <Icon name="delete" />
-              </button>
+              </Button>
             </div>
           </header>
           <p>{item.text}</p>

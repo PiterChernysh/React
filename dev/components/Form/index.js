@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import Button from "../Button";
+import styles from "./style.css";
 
 const Form = ({ item, type, addFromProps, cancelEdit }) => {
-  const [name, setName] = useState(item ? item.news_title : "");
   const [text, setText] = useState(item ? item.text : "");
+  const [name, setName] = useState(item ? item.news_title : "");
   const handleChange = e => {
     const { name, value } = e.target;
     if (name === "name") {
@@ -31,7 +33,10 @@ const Form = ({ item, type, addFromProps, cancelEdit }) => {
   };
 
   return (
-    <form className={`form ${type ? type : ""}`} onSubmit={handleSubmit}>
+    <form
+      className={`${styles.form} ${styles.type ? styles.type : ""}`}
+      onSubmit={handleSubmit}
+    >
       <label htmlFor="name">Name news </label>
       <small>{name != "" ? <br /> : "No name news"}</small>
       <input
@@ -50,14 +55,14 @@ const Form = ({ item, type, addFromProps, cancelEdit }) => {
         value={text}
         onChange={handleChange}
       ></textarea>
-      <div className="novigation">
-        <button className="button">Add News</button>
+      <div className={styles.novigation}>
         {type === "edit" ? (
-          <button className="button" onClick={cancelEdit}>
-            Cancel
-          </button>
+          <>
+            <Button theme='edit'>Add News</Button>
+            <Button theme='edit' handleClick={() => cancelEdit}>Cancel</Button>
+          </>
         ) : (
-          ""
+          <Button>Add News</Button>
         )}
       </div>
     </form>
