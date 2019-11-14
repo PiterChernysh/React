@@ -8,10 +8,6 @@ import { removeNews } from "../../../actions";
 const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
   const [isShowForm, setIsShowForm] = useState(false);
 
-  const cancelEdit = () => {
-    setIsShowForm(false);
-  };
-
   useEffect(() => {
     setIsShowForm(false);
   }, [item]);
@@ -34,7 +30,7 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
               </Button>
             </div>
           </header>
-          <Form type="edit" item={item} cancelEdit={cancelEdit} />
+          <Form type="edit" item={item}/>
         </>
       ) : (
         <>

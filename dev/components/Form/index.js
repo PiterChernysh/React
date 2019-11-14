@@ -3,7 +3,7 @@ import Button from "../Button";
 import styles from "./style.css";
 import { createNews, updateNews } from "../../actions";
 
-const Form = ({ item, type, cancelEdit }) => {
+const Form = ({ item, type }) => {
   const [text, setText] = useState(item ? item.text : "");
   const [name, setName] = useState(item ? item.news_title : "");
 
