@@ -34,7 +34,7 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
               </Button>
             </div>
           </header>
-          <Form type="edit" item={item} cancelEdit={cancelEdit} />
+          <Form type="edit" item={item} />
         </>
       ) : (
         <>

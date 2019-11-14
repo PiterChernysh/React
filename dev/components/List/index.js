@@ -5,29 +5,14 @@ import styles from "./style.css";
 import store from "../../store";
 
 const List = () => {
-  const [news, setNews] = useState(store.getStore());
-  const [willMount, setWillMount] = useState(false);
-
-  const changeDataFromStore = () => {
-    setNews(store.getStore());
-  };
-
-  const addAllNews = () => {
-    if (!willMount) {
-      setWillMount(true);
-      store.addEventListener(changeDataFromStore);
-    }
-  };
-
+  const news = store.getState();
   useEffect(() => {
-    store.removeEventListener(changeDataFromStore);
     localStorage.setItem("newsList", JSON.stringify(news));
   });
-
-  addAllNews();
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
   const maxId = news.length;
+
   const newsList = news.slice(startId, startId + len);
 
   const newsShow = () => {

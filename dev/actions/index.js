@@ -1,21 +1,21 @@
-import dispatcher from "../dispatcher";
+import store from "../store";
 
 export const removeNews = id => {
-  dispatcher.dispatch({
+  store.dispatch({
     type: "REMOVE_NEWS",
     payload: id
   });
 };
 
 export const updateNews = news => {
-  dispatcher.dispatch({
+  store.dispatch({
     type: "UPDATE_NEWS",
     payload: news
   });
 };
 
 export const createNews = news => {
-  dispatcher.dispatch({
+  store.dispatch({
     type: "CREATE_NEWS",
     payload: news
   });

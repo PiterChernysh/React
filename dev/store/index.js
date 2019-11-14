@@ -1,4 +1,4 @@
-import EventEmitter from "events";
+import { createStore } from "redux";
 const newsListTemplate = [
   {
     id: 1,
@@ -63,38 +63,23 @@ const newsListTemplate = [
 ];
 
 let newsListLocal = JSON.parse(localStorage.getItem("newsList"));
-let newsList =
-  newsListLocal == null || newsListLocal.length <= 0
-    ? (() => {
-        localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
-        return newsListTemplate;
-      })()
-    : newsListLocal;
+let newsList = newsListLocal ? newsListLocal : newsListTemplate;
+if (newsListLocal == undefined)
+  localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
 
-const EVENT = "chanjeNews";
-
-const store = Object.assign({}, EventEmitter.prototype, {
-  getStore() {
-    return newsList;
-  },
-  addEventListener(cb) {
-    this.addListener(EVENT, cb);
-  },
-  removeEventListener(cb) {
-    this.removeListener(EVENT, cb);
-  },
-  emitStore() {
-    this.emit(EVENT);
-  },
-  removeNews(id) {
-    newsList = newsList.filter(item => item.id !== id);
-  },
-  updateNews(news) {
-    newsList = newsList.map(item => (item.id === news.id ? news : item));
-  },
-  createNews(news) {
-    newsList = [news, ...newsList];
+const reducer = (news = newsList, { type, payload }) => {
+  switch (type) {
+    case "REMOVE_NEWS":
+      return news.filter(item => item.id !== payload);
+    case "UPDATE_NEWS":
+      return news.map(item => (payload.id === item.id ? payload : item));
+    case "CREATE_NEWS":
+      return [payload, ...news];
+    case "CREATE_ALL_NEWS":
+      return payload;
+    default:
+      return news;
   }
-});
-
+};
+const store = new createStore(reducer);
 export default store;
