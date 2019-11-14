@@ -3,13 +3,20 @@ import Form from "../../Form";
 import Icon from "../../Icon";
 import Button from "../../Button";
 import styles from "./style.css";
+import { removeNews } from "../../../actions";
 
-const Item = ({
-  item = { news_title: "noname", text: "lorem ipsum" },
-  removeFromList,
-  updateFromList
-}) => {
+const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
   const [isShowForm, setIsShowForm] = useState(false);
+
+  const cancelEdit = () => {
+    setIsShowForm(false);
+  };
+
+  const Cancel = ()=>{
+    return(<Button theme="edit" handleClick={()=>setIsShowForm(!isShowForm)}>
+    Cancel
+  </Button>)
+  }
 
   useEffect(() => {
     setIsShowForm(false);
@@ -17,7 +24,7 @@ const Item = ({
   return (
     <li className={styles.item}>
       {isShowForm ? (
-        <Form type="edit" item={item} addFromProps={updateFromList} />
+          <Form type="edit" item={item} cancelEdit={cancelEdit} cancel={<Cancel/>}/>
       ) : (
         <>
           <header className={styles.item__head}>
@@ -29,7 +36,7 @@ const Item = ({
               >
                 <Icon name="edit" />
               </Button>
-              <Button theme="small" handleClick={() => removeFromList(item.id)}>
+              <Button theme="small" handleClick={() => removeNews(item.id)}>
                 <Icon name="delete" />
               </Button>
             </div>

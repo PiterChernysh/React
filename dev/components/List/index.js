@@ -1,24 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Item from "./Item";
 import Button from "../Button";
 import styles from "./style.css";
+import store from '../../store'
 
-const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
+
+const List = () => {
+  const [news, setNews] = useState(store.getStore());
+  const [willMount, setWillMount] = useState(false);
+
+  const changeDataFromStore = ()=>{
+		setNews(store.getStore());
+  }
+  
+  const addAllNews = () => {
+    if (!willMount) {
+      setWillMount(true);
+      store.addEventListener(changeDataFromStore);
+    }
+  };
+
+  useEffect(()=>{
+    store.removeEventListener(changeDataFromStore);
+    localStorage.setItem("newsList", JSON.stringify(news));
+  });
+
+  addAllNews();
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
-  const maxId = newsFromList.length;
-  const newsList = newsFromList.slice(startId, startId + len);
+  const maxId = news.length;
+  const newsList = news.slice(startId, startId + len);
 
   const newsShow = () => {
     if (len < 0) setLen(2);
     else if (len > maxId) setLen(maxId);
     if (newsList.length > 0)
       return newsList.map(item => {
+        
         return (
           <Item
             key={item.id}
-            removeFromList={removeFromProps}
-            updateFromList={updateFromProps}
             item={item}
           />
         );
@@ -38,7 +59,7 @@ const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
     setStartId(startId + len < maxId ? startId + len : maxId - len);
   };
   return (
-    <>
+    <ul className={styles.list}>
       {newsShow()}
       <div className={styles.novigation}>
         <Button handleClick={() => smaller()}>
@@ -56,7 +77,7 @@ const List = ({ newsFromList, removeFromProps, updateFromProps }) => {
         Down
         </Button>
       </div>
-    </>
+    </ul>
   );
 };
 
