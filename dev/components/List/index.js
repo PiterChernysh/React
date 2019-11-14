@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Item from "./Item";
 import Button from "../Button";
 import styles from "./style.css";
-import store from '../../store'
-
+import store from "../../store";
 
 const List = () => {
   const [news, setNews] = useState(store.getStore());
   const [willMount, setWillMount] = useState(false);
 
-  const changeDataFromStore = ()=>{
-		setNews(store.getStore());
-  }
-  
+  const changeDataFromStore = () => {
+    setNews(store.getStore());
+  };
+
   const addAllNews = () => {
     if (!willMount) {
       setWillMount(true);
@@ -20,7 +19,7 @@ const List = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     store.removeEventListener(changeDataFromStore);
     localStorage.setItem("newsList", JSON.stringify(news));
   });
@@ -36,13 +35,7 @@ const List = () => {
     else if (len > maxId) setLen(maxId);
     if (newsList.length > 0)
       return newsList.map(item => {
-        
-        return (
-          <Item
-            key={item.id}
-            item={item}
-          />
-        );
+        return <Item key={item.id} item={item} />;
       });
   };
   const smaller = () => {
@@ -62,20 +55,12 @@ const List = () => {
     <ul className={styles.list}>
       {newsShow()}
       <div className={styles.novigation}>
-        <Button handleClick={() => smaller()}>
-        smaller
-        </Button>
-        <Button handleClick={() => more()}>
-        more
-        </Button>
+        <Button handleClick={() => smaller()}>smaller</Button>
+        <Button handleClick={() => more()}>more</Button>
       </div>
       <div className={styles.novigation}>
-      <Button handleClick={() => pageUp()}>
-        Up
-        </Button>
-        <Button handleClick={() => pageDn()}>
-        Down
-        </Button>
+        <Button handleClick={() => pageUp()}>Up</Button>
+        <Button handleClick={() => pageDn()}>Down</Button>
       </div>
     </ul>
   );

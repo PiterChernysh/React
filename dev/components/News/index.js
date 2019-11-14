@@ -6,7 +6,6 @@ import List from "../List";
 import styles from "./style.css";
 
 const News = () => {
-  const [isShowForm, setIsShowForm] = useState(false);
   const cancelEdit = () => {
     setIsShowForm(false);
   };

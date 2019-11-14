@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import EventEmitter from "events";
 const newsListTemplate = [
   {
     id: 1,
@@ -63,36 +63,38 @@ const newsListTemplate = [
 ];
 
 let newsListLocal = JSON.parse(localStorage.getItem("newsList"));
-let newsList = newsListLocal==null|| newsListLocal.length <= 0 ? (()=>{
-    localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
-    return newsListTemplate
-})() : newsListLocal;
+let newsList =
+  newsListLocal == null || newsListLocal.length <= 0
+    ? (() => {
+        localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
+        return newsListTemplate;
+      })()
+    : newsListLocal;
 
-const EVENT = 'chanjeNews';
+const EVENT = "chanjeNews";
 
 const store = Object.assign({}, EventEmitter.prototype, {
-    getStore() {
-		return newsList;
-	},
-	addEventListener(cb) {
-		this.addListener(EVENT, cb);
-	},
-	removeEventListener(cb) {
-		this.removeListener(EVENT, cb);
-	},
-	emitStore() {
-		this.emit(EVENT);
-	},
-	removeNews(id) {
-		newsList = newsList.filter(item => item.id !== id);
-	},
-	updateNews(news) {
-		newsList = newsList.map(item => item.id === news.id ? news : item);
-	},
-	createNews(news) {
-		newsList = [news, ...newsList];
-    }
-
+  getStore() {
+    return newsList;
+  },
+  addEventListener(cb) {
+    this.addListener(EVENT, cb);
+  },
+  removeEventListener(cb) {
+    this.removeListener(EVENT, cb);
+  },
+  emitStore() {
+    this.emit(EVENT);
+  },
+  removeNews(id) {
+    newsList = newsList.filter(item => item.id !== id);
+  },
+  updateNews(news) {
+    newsList = newsList.map(item => (item.id === news.id ? news : item));
+  },
+  createNews(news) {
+    newsList = [news, ...newsList];
+  }
 });
 
 export default store;

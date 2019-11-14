@@ -15,6 +15,7 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
   useEffect(() => {
     setIsShowForm(false);
   }, [item]);
+
   return (
     <li className={styles.item}>
       {isShowForm ? (
