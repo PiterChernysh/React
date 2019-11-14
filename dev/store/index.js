@@ -63,13 +63,9 @@ const newsListTemplate = [
 ];
 
 let newsListLocal = JSON.parse(localStorage.getItem("newsList"));
-let newsList =
-  newsListLocal == null || newsListLocal.length <= 0
-    ? (() => {
-        localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
-        return newsListTemplate;
-      })()
-    : newsListLocal;
+let newsList = newsListLocal ? newsListLocal : newsListTemplate;
+if (newsListLocal == undefined)
+  localStorage.setItem("newsList", JSON.stringify(newsListTemplate));
 
 const EVENT = "chanjeNews";
 
