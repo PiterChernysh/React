@@ -12,19 +12,29 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
     setIsShowForm(false);
   };
 
-  const Cancel = ()=>{
-    return(<Button theme="edit" handleClick={()=>setIsShowForm(!isShowForm)}>
-    Cancel
-  </Button>)
-  }
-
   useEffect(() => {
     setIsShowForm(false);
   }, [item]);
   return (
     <li className={styles.item}>
       {isShowForm ? (
-          <Form type="edit" item={item} cancelEdit={cancelEdit} cancel={<Cancel/>}/>
+        <>
+          <header className={styles.item__head}>
+            <h3 className={styles.item__title}>Update news</h3>
+            <div className={styles.item__action}>
+              <Button
+                theme="small"
+                handleClick={() => setIsShowForm(!isShowForm)}
+              >
+                <Icon name="noEdit" />
+              </Button>
+              <Button theme="small" handleClick={() => removeNews(item.id)}>
+                <Icon name="delete" />
+              </Button>
+            </div>
+          </header>
+          <Form type="edit" item={item} cancelEdit={cancelEdit} />
+        </>
       ) : (
         <>
           <header className={styles.item__head}>

@@ -3,7 +3,7 @@ import Button from "../Button";
 import styles from "./style.css";
 import { createNews, updateNews } from "../../actions";
 
-const Form = ({ item, type, cancel }) => {
+const Form = ({ item, type, cancelEdit }) => {
   const [text, setText] = useState(item ? item.text : "");
   const [name, setName] = useState(item ? item.news_title : "");
   const handleChange = e => {
@@ -58,8 +58,10 @@ const Form = ({ item, type, cancel }) => {
         <div className={styles.novigation}>
           {type == "edit" ? (
             <>
-            <Button theme="edit">Update News</Button>
-            {cancel}
+              <Button theme="edit">Update News</Button>
+              {/* <Button theme="edit" onClick={() => cancelEdit()}>
+                Cancel
+              </Button> */}
             </>
           ) : (
             <Button>Add News</Button>
