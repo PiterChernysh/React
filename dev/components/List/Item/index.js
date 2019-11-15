@@ -8,10 +8,6 @@ import { removeNews } from "../../../actions";
 const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
   const [isShowForm, setIsShowForm] = useState(false);
 
-  const cancelEdit = () => {
-    setIsShowForm(false);
-  };
-
   useEffect(() => {
     setIsShowForm(false);
   }, [item]);
