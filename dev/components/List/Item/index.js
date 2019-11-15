@@ -4,11 +4,11 @@ import Icon from "../../Icon";
 import Button from "../../Button";
 import styles from "./style.css";
 import { removeNews } from "../../../actions";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
   const [isShowForm, setIsShowForm] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     setIsShowForm(false);
@@ -27,7 +27,7 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
               >
                 <Icon name="noEdit" />
               </Button>
-              <Button theme="small" handleClick={() => dispatch(removeNews(item.id))}>
+              <Button theme="small" handleClick={() => removeNews(item.id)}>
                 <Icon name="delete" />
               </Button>
             </div>
@@ -47,7 +47,7 @@ const Item = ({ item = { news_title: "noname", text: "lorem ipsum" } }) => {
               </Button>
               <Button
                 theme="small"
-                handleClick={() => dispatch(removeNews(item.id))}
+                handleClick={() => removeNews(item.id)}
               >
                 <Icon name="delete" />
               </Button>
