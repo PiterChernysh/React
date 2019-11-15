@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Button from "../Button";
 import styles from "./style.css";
 import { createNews, updateNews } from "../../actions";
+import { useDispatch } from "react-redux";
 
 const Form = ({ item, type }) => {
   const [text, setText] = useState(item ? item.text : "");
   const [name, setName] = useState(item ? item.news_title : "");
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -24,7 +26,7 @@ const Form = ({ item, type }) => {
       text: text
     };
     if (name != "" && text != "") {
-      type === "edit" ? updateNews(data) : createNews(data);
+      type === "edit" ? dispatch(updateNews(data)) : dispatch(createNews(data));
       clearForm();
     }
   };

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import Item from "./Item";
 import Button from "../Button";
 import styles from "./style.css";
-import store from "../../store";
+import { useSelector } from "react-redux";
 
 const List = () => {
-  const news = store.getState();
+  let news = useSelector(news => news);
   useEffect(() => {
     localStorage.setItem("newsList", JSON.stringify(news));
   });
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
+
   const maxId = news.length;
 
   const newsList = news.slice(startId, startId + len);
