@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import Item from "./Item";
 import Button from "../Button";
 import styles from "./style.css";
-import { useSelector } from "react-redux";
+import { connect } from 'react-redux';
 
-const List = () => {
-  let news = useSelector(news => news);
+const List = ({news}) => {
   useEffect(() => {
     localStorage.setItem("newsList", JSON.stringify(news));
   });
@@ -52,4 +51,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default connect((store)=>({news:store}))(List);
