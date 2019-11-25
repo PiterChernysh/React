@@ -3,12 +3,17 @@ import Form from "../../Form";
 import Icon from "../../Icon";
 import Button from "../../Button";
 import styles from "./style.css";
-import { removeNews } from "../../../actions";
-import { connect } from 'react-redux';
+import { removeNews } from "../../../actions/news";
+import { useDispatch } from "react-redux";
 
-const Item = (props) => {
- const { item = { news_title: "noname", text: "lorem ipsum" },removeNews } = props;
+const Item = props => {
+  const {
+    item = { news_title: "noname", text: "lorem ipsum" }
+  } = props;
   const [isShowForm, setIsShowForm] = useState(false);
+  
+  const dispatch = useDispatch();
+  const remove = (id)=>dispatch(removeNews(id));
 
   useEffect(() => {
     setIsShowForm(false);
@@ -27,7 +32,7 @@ const Item = (props) => {
               >
                 <Icon name="noEdit" />
               </Button>
-              <Button theme="small" handleClick={() => removeNews(itesm.id)}>
+              <Button theme="small" handleClick={() => remove(itesm.id)}>
                 <Icon name="delete" />
               </Button>
             </div>
@@ -45,10 +50,7 @@ const Item = (props) => {
               >
                 <Icon name="edit" />
               </Button>
-              <Button
-                theme="small"
-                handleClick={() => removeNews(item.id)}
-              >
+              <Button theme="small" handleClick={() => remove(item.id)}>
                 <Icon name="delete" />
               </Button>
             </div>
@@ -60,4 +62,4 @@ const Item = (props) => {
   );
 };
 
-export default connect(null,{removeNews})(Item);
+export default Item;

@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Item from "./Item";
 import Button from "../Button";
 import styles from "./style.css";
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const List = ({news}) => {
+const List = () => {
+  const news = useSelector(store => store.news);
   useEffect(() => {
     localStorage.setItem("newsList", JSON.stringify(news));
   });
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
-
   const maxId = news.length;
-
   const newsList = news.slice(startId, startId + len);
 
   const newsShow = () => {
@@ -51,4 +50,4 @@ const List = ({news}) => {
   );
 };
 
-export default connect((store)=>({news:store}))(List);
+export default List;

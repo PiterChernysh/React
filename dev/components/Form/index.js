@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import styles from "./style.css";
-import { createNews, updateNews } from "../../actions";
-import { connect } from "react-redux";
+import { createNews, updateNews } from "../../actions/news";
+import { useDispatch } from "react-redux";
 
-const Form = (props) => {
-  const { item, type} = props; 
+const Form = props => {
+  const { item, type } = props;
   const [text, setText] = useState(item ? item.text : "");
   const [name, setName] = useState(item ? item.news_title : "");
+
+  const dispatch = useDispatch();
+  const create = data => dispatch(createNews(data));
+  const update = data => dispatch(updateNews(data));
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -26,7 +30,7 @@ const Form = (props) => {
       text: text
     };
     if (name != "" && text != "") {
-      type === "edit" ? props.updateNews(data) : props.createNews(data);
+      type === "edit" ? update(data) : create(data);
       clearForm();
     }
   };
@@ -70,4 +74,4 @@ const Form = (props) => {
   );
 };
 
-export default connect(null, { updateNews, createNews })(Form);
+export default Form;
