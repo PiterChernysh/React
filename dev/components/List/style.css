@@ -10,3 +10,30 @@
     align-items: center;
     justify-content: center;
 }
+.form
+{
+    padding: 0 40px;
+    border-bottom: 3px solid;
+}
+
+
+.form input
+{
+    font: inherit;
+
+    display: block;
+
+    width: 100%;
+    padding: 5px 10px;
+
+    border: 3px solid;
+    background:  #fefefe;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form label:active + input
+{
+    border-color: #10689a;
+    outline: none;
+}

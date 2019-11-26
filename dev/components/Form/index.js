@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import Button from "../Button";
 import styles from "./style.css";
 import { createNews, updateNews } from "../../actions/news";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-const Form = props => {
-  const { item, type } = props;
+const Form = (props) => {
+  const { item, type} = props; 
   const [text, setText] = useState(item ? item.text : "");
   const [name, setName] = useState(item ? item.news_title : "");
 
   const dispatch = useDispatch();
-  const create = data => dispatch(createNews(data));
-  const update = data => dispatch(updateNews(data));
+  const create = (data)=>dispatch(createNews(data));
+  const update = (data)=>dispatch(updateNews(data));
 
   const handleChange = e => {
     const { name, value } = e.target;

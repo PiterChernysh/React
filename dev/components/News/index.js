@@ -11,7 +11,7 @@ const News = () => {
     <Provider store={store}>
     <div className={styles.box}>
       <Title />
-      <Form />
+      {/* <Form /> */}
       <List />
     </div>
     </Provider>
