@@ -1,4 +1,5 @@
 import React from "react";
+import Title from "../Title";
 import styles from "./style.css";
 import Button from "../Button";
 import { useHistory } from "react-router-dom";
@@ -21,6 +22,7 @@ const Header = props => {
   };
   return (
     <header>
+      <Title/>
       <nav className={styles.novigation}>{createMenu()}</nav>
     </header>
   );

@@ -11,11 +11,11 @@ const Task = () => (
         страницы с новостями
       </h2>
     </div>
-    <h1>
+    <h2>
       <a target="_blank" href="https://currentsapi.services">
         API News
       </a>
-    </h1>
+    </h2>
   </>
 );
 export default Task;

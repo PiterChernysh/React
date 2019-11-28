@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import Form from "../Form";
+import Item from "./Item";
 import styles from "./style.css";
 import { createAllNews } from "../../actions/news";
 import { useSelector, useDispatch } from "react-redux";
@@ -52,21 +53,9 @@ const List = () => {
     const newsList = news.slice(startId, startId + len);
     return (
       <Router>
-        <ul>
-          {newsList.map(item => (
-            <li key={item.id}>
-              <NavLink
-                activeStyle={{
-                  color: "red"
-                }}
-                exact
-                to={`/news/${item.id}`}
-              >
-                {item.title}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {newsList.map(item => (
+          <Item key={item.id} item={item} />
+        ))}
         <Switch>
           <Route path="/news/:id" component={Form} />
         </Switch>
