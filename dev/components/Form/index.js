@@ -1,76 +1,41 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import styles from "./style.css";
-import { createNews, updateNews } from "../../actions/news";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import Error from "../Error";
 
-const Form = (props) => {
-  const { item, type} = props; 
-  const [text, setText] = useState(item ? item.text : "");
-  const [name, setName] = useState(item ? item.news_title : "");
+const Form = props => {
+  const id = props.match.params.id;
+  const list = useState(useSelector(store => store.news));
+  const news = list[0].filter(item => {
+    if(item.id == id) return item;
+  })[0];
+  const formatDate = date => {
+    let new_date = new Date(date);
+    let dd = new_date.getDate();
+    if (dd < 10) dd = "0" + dd;
 
-  const dispatch = useDispatch();
-  const create = (data)=>dispatch(createNews(data));
-  const update = (data)=>dispatch(updateNews(data));
+    let mm = new_date.getMonth() + 1;
+    if (mm < 10) mm = "0" + mm;
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    if (name === "name") {
-      setName(value);
-    } else {
-      setText(value);
-    }
+    let yy = new_date.getFullYear() % 100;
+    if (yy < 10) yy = "0" + yy;
+    return dd + "." + mm + "." + yy;
   };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    const data = {
-      id: item ? item.id : Date.now(),
-      news_title: name,
-      text: text
-    };
-    if (name != "" && text != "") {
-      type === "edit" ? update(data) : create(data);
-      clearForm();
-    }
-  };
-
-  const clearForm = () => {
-    setName("");
-    setText("");
-  };
-
   return (
-    <form
-      className={`${styles.form}  ${styles.type ? styles.type : ""}`}
-      onSubmit={handleSubmit}
-    >
-      <label htmlFor="name">Name news </label>
-      <small>{name != "" ? <br /> : "No name news"}</small>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value={name}
-        onChange={handleChange}
-      />
-      <label htmlFor="text">Text news</label>
-      <small>{text != "" ? <br /> : "No news"}</small>
-      <textarea
-        type="text"
-        name="text"
-        id="text"
-        value={text}
-        onChange={handleChange}
-      ></textarea>
-      <div className={styles.novigation}>
-        {type == "edit" ? (
-          <Button theme="edit">Update News</Button>
-        ) : (
-          <Button>Add News</Button>
-        )}
-      </div>
-    </form>
+    <>
+    {
+      news?(<form className={styles.form}>
+        <h1>{news.title}</h1>
+        <img style={{ width: "400px" }} src={news.image} />
+        <p>{news.description}</p>
+        <p>Author: {news.author}</p>
+        <p>A source: {news.url}</p>
+        <p>Published: {formatDate(news.published)}</p>
+      </form>):(<Error/>)
+
+    }
+    </>
   );
 };
 

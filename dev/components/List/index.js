@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Item from "./Item";
 import Button from "../Button";
+import Form from "../Form";
 import styles from "./style.css";
-import { createNews } from "../../actions/news";
+import { createAllNews } from "../../actions/news";
 import { useSelector, useDispatch } from "react-redux";
 import { getNews } from "../../api";
+import { HashRouter as Router, Route, NavLink, Switch } from "react-router-dom";
 
 const List = () => {
   const [search, setSearch] = useState("");
@@ -14,10 +15,9 @@ const List = () => {
   const [startId, setStartId] = useState(0);
   const [len, setLen] = useState(2);
   const maxId = news.length;
-  const newsList = news.slice(startId, startId + len);
 
   const dispatch = useDispatch();
-  const create = data => dispatch(createNews(data));
+  const create = data => dispatch(createAllNews(data));
 
   useEffect(() => {
     localStorage.setItem("newsList", JSON.stringify(news));
@@ -49,10 +49,29 @@ const List = () => {
   };
 
   const newsShow = () => {
-    if (newsList.length > 0)
-      return newsList.map(item => {
-        return <Item key={item.id} item={item} />;
-      });
+    const newsList = news.slice(startId, startId + len);
+    return (
+      <Router>
+        <ul>
+          {newsList.map(item => (
+            <li key={item.id}>
+              <NavLink
+                activeStyle={{
+                  color: "red"
+                }}
+                exact
+                to={`/news/${item.id}`}
+              >
+                {item.title}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+        <Switch>
+          <Route path="/news/:id" component={Form} />
+        </Switch>
+      </Router>
+    );
   };
   const smaller = () => {
     setLen(len - 2 >= 2 ? len - 2 : 2);
@@ -70,37 +89,38 @@ const List = () => {
   return (
     <div>
       <section>
-      
-        <form className={styles.form  } onSubmit={handleSumbit}>
-          <p><a href='https://currentsapi.services'>API News</a> </p>
-          <input
-            type="search"
-            placeholder="category name"
-            value={search}
-            onChange={handleChange}
-          />
-          <Button disabled={isLoading}>search</Button>
+        <form className={styles.form} onSubmit={handleSumbit}>
+          <div className={styles.novigation}>
+            <input
+              style={{ marginRight: "10px", marginTop: "0" }}
+              type="search"
+              placeholder="category name"
+              value={search}
+              onChange={handleChange}
+            />
+            <Button disabled={isLoading}>search</Button>
+          </div>
         </form>
       </section>
       {error}
       <section>
-          {isLoading ? <p>loading…</p> : null}
-          {news ? (
-      <ul className={styles.list}>
-        {newsShow()}
-        <div className={styles.novigation}>
-          <Button handleClick={() => smaller()}>smaller</Button>
-          <Button handleClick={() => more()}>more</Button>
-        </div>
-        <div className={styles.novigation}>
-          <Button handleClick={() => pageUp()}>Up</Button>
-          <Button handleClick={() => pageDn()}>Down</Button>
-        </div>
-      </ul>
-      ) : (
-            <p>Unfortunatelly, we can't find</p>
-          )}
-        </section>
+        {isLoading ? <p>loading…</p> : null}
+        {news ? (
+          <ul className={styles.list}>
+            {newsShow()}
+            <div className={styles.novigation}>
+              <Button handleClick={() => smaller()}>smaller</Button>
+              <Button handleClick={() => more()}>more</Button>
+            </div>
+            <div className={styles.novigation}>
+              <Button handleClick={() => pageUp()}>Up</Button>
+              <Button handleClick={() => pageDn()}>Down</Button>
+            </div>
+          </ul>
+        ) : (
+          <p>Unfortunatelly, we can't find</p>
+        )}
+      </section>
     </div>
   );
 };

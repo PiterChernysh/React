@@ -12,3 +12,8 @@ export const createNews = news => ({
   type: "CREATE_NEWS",
   payload: news
 });
+
+export const createAllNews = news => ({
+  type: "CREATE_ALL_NEWS",
+  payload: news
+});

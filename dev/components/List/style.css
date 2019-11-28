@@ -6,6 +6,7 @@
     list-style-type: none;
 }
 .novigation{
+    margin:auto;
     display: flex;
     align-items: center;
     justify-content: center;

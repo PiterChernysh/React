@@ -1,13 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 import styles from "./style.css";
-import News from "./components/News";
+
+import Router from "./router";
 
 const App = () => {
   return (
-    <div className={styles.box}>
-      <News />
-    </div>
+    <Provider store={store}>
+      <div className={styles.box}>
+        <Router />
+      </div>
+    </Provider>
   );
 };
 
