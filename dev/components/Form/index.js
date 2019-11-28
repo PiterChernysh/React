@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import Error from "../Error";
 
 const Form = props => {
-  const id = props.match.params.id;
+  const idNews = props.match.params.id;
   const list = useState(useSelector(store => store.news));
   const news = list[0].filter(item => {
-    if(item.id == id) return item;
+    if(item.id == idNews) return item;
   })[0];
   const formatDate = date => {
     let new_date = new Date(date);
@@ -22,6 +22,7 @@ const Form = props => {
     if (yy < 10) yy = "0" + yy;
     return dd + "." + mm + "." + yy;
   };
+
   return (
     <>
     {
@@ -30,7 +31,7 @@ const Form = props => {
         <img style={{ width: "400px" }} src={news.image} />
         <p>{news.description}</p>
         <p>Author: {news.author}</p>
-        <p>A source: {news.url}</p>
+        <p>A source: <a target="_blank" href={news.url}>{news.url}</a></p>
         <p>Published: {formatDate(news.published)}</p>
       </form>):(<Error/>)
 

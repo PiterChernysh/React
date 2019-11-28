@@ -1,26 +1,20 @@
 import React from "react";
 import styles from "./style.css";
 import Button from "../Button";
-import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Header = props => {
+  const history = useHistory();
   const { rout } = props;
   const list = Object.keys(rout);
-
+  const transition = page => {
+      if(page != history.location.pathname) history.push(page);
+  };
   const createMenu = () => {
     return list.map(item => {
       return (
-        <Button key={item}>
-          <NavLink
-            exact
-            to={rout[item]}
-            activeStyle={{
-              fontWeight: "bold",
-              color: "red"
-            }}
-          >
-            {item}
-          </NavLink>
+        <Button handleClick={() => transition(rout[item])} key={item}>
+          {item}
         </Button>
       );
     });

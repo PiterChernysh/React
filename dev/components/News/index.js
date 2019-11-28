@@ -7,7 +7,6 @@ const News = () => {
   return (
     <div className={styles.box}>
       <Title />
-      {/* <Form /> */}
       <List />
     </div>
   );
